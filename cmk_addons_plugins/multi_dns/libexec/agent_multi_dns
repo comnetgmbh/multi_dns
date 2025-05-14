@@ -1,0 +1,20 @@
+#!/bin/bash
+#2024 Comnet GmbH, Jason Walczak
+
+# Usage: Call with timeout (in seconds) as first argument, following a space separated list of domains to test against, e.g.:
+# ./multi_dns 5 checkmk.com comnet-solutions.de example.com
+# Please note: timeouts less than 1 are silently set to 1 (dig behavior).
+
+arg_indices=$#
+arg_vals=("$@")
+
+echo "<<<multi_dns:sep(124)>>>"
+for i in $(grep "nameserver" /etc/resolv.conf | sed 's/nameserver /@/g'); do
+    for (( j=1; j<arg_indices; j++ )); do
+        START=$(date +%s.%N)
+        IP_ADDRESS=$(dig "$i" "${arg_vals[j]}" +short +time="$1" +tries=1 | head -1 | sed 's/;; //g')
+        DUR=$(echo "$(date +%s.%N) - $START" | bc)
+        echo "$i|${arg_vals[j]}|$DUR|$1|$IP_ADDRESS" | sed 's/@//g'
+    done
+done
+
