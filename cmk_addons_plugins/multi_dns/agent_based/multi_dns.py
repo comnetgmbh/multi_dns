@@ -98,11 +98,13 @@ def check_multi_dns(item, params, section):
     res_time_upper = params.get("res_time_upper")
     attrs = section.get(item)  # item == dns address
     total_response_time = 0.0
+    number_of_domains = 0
     for test_domain in section[item].keys():
         result = section[item][test_domain]["result"]
         timeout_param = section[item][test_domain]["timeout_param"]
         response_time_ms = section[item][test_domain]["response_time_ms"]
         total_response_time += response_time_ms
+        number_of_domains += 1
         state, summary = _evaluate_result(item, test_domain, response_time_ms, timeout_param, result)
         yield Result(state=state, summary=summary)
 
@@ -113,7 +115,7 @@ def check_multi_dns(item, params, section):
             boundaries=(0.0, None)
         )
 
-    avg_response_time = total_response_time / len(section.keys())
+    avg_response_time = total_response_time / number_of_domains
     yield from check_levels(
         avg_response_time,
         levels_upper=res_time_upper,
