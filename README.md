@@ -3,4 +3,6 @@ This package contains a Checkmk special agent which parses the locally configure
 
 The check fills a small niche left by the built in DNS Check and the Agent Plugin provided by Checkmk itself, by providing a transparent way to check all available DNS servers on the site and taking the mystery out of sporadic resolution failures or long resolution times.
 
-Please keep in mind, this runs on a Checkmk site, it is not deployed to a host.
+Please keep in mind:
+1. This runs on a Checkmk site, it is not deployed to a host.
+2. If you want to add this service to a host which also received agent data, make sure to configure it to use both API integrations *and* Checkmk agent data.
