@@ -4,7 +4,7 @@
 from cmk.graphing.v1 import Title
 from cmk.graphing.v1.graphs import Graph, MinimalRange
 from cmk.graphing.v1.metrics import Color, DecimalNotation, Metric, Unit
-from cmk.graphing.v1.perfometers import Closed, FocusRange, Open, Perfometer
+from cmk.graphing.v1.perfometers import Closed, FocusRange, Perfometer
 
 metric_average_resolution_time = Metric(
     name="avg_dns_resolution_time",
