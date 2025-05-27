@@ -8,7 +8,7 @@ from cmk.agent_based.v2 import AgentSection, CheckPlugin, Service, Result, State
 
 def _check_result(result):
     pattern_ip = re.compile(r"^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)\.?\b){4}$")
-    pattern_fqdn = re.compile("(?!-)[A-Z\d-]{1,63}(?<!-)$", re.IGNORECASE)
+    pattern_fqdn = re.compile(r"(?!-)[A-Z\d-]{1,63}(?<!-)$", re.IGNORECASE)
     if pattern_ip.match(result) or all(pattern_fqdn.match(domain) for domain in result.rstrip(".").split(".")):
         return "SUCCESS"
     elif result.startswith("communications error"):
